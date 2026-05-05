@@ -1,70 +1,12 @@
-"""Testable demo package: secure, well-tested utility modules.
+"""testable_demo package — DEV branch.
 
-This package showcases secure-by-default Python patterns and is designed
-to score well on the Testable whitebox metric suite.
+This package intentionally contains issues for whitebox analyzer validation.
 """
 
-from testable_demo.calculator import (
-    add,
-    clamp,
-    divide,
-    factorial,
-    mean,
-    median,
-    multiply,
-    subtract,
-)
-from testable_demo.data_flow import (
-    group_by_category,
-    running_total,
-    summarize_orders,
-)
-from testable_demo.http_client import fetch_json
-from testable_demo.security import (
-    generate_token,
-    hash_password,
-    parse_literal_config,
-    run_command,
-    safe_load_yaml,
-    select_user_by_id,
-    write_temp_file,
-)
-from testable_demo.strings import (
-    count_words,
-    is_palindrome,
-    normalize_whitespace,
-    reverse_words,
-    slugify,
-    truncate,
-)
+import json  # unused — pylint W0611 should flag this
 
-__version__ = "1.0.0"
+from .calculator import add, subtract  # re-exports
+from .strings import slugify_loose_dup  # re-export
 
-__all__ = [
-    "__version__",
-    "add",
-    "clamp",
-    "count_words",
-    "divide",
-    "factorial",
-    "fetch_json",
-    "generate_token",
-    "group_by_category",
-    "hash_password",
-    "is_palindrome",
-    "mean",
-    "median",
-    "multiply",
-    "normalize_whitespace",
-    "parse_literal_config",
-    "reverse_words",
-    "running_total",
-    "run_command",
-    "safe_load_yaml",
-    "select_user_by_id",
-    "slugify",
-    "subtract",
-    "summarize_orders",
-    "truncate",
-    "write_temp_file",
-]
+__all__ = ["add", "subtract", "slugify_loose_dup"]
+__version__ = "0.1.0-dev"

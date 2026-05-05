@@ -1,24 +1,20 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "testable-demo-python"
-version = "1.0.0"
-description = "Sample Python project for Testable whitebox metric validation."
+name = "testable-demo-python-dev"
+version = "0.1.0-dev"
+description = "Intentionally-broken Python project for Testable whitebox analyzer validation."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 authors = [{ name = "Testable Platform" }]
-license = { text = "MIT" }
 dependencies = [
-    "requests>=2.32.0",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.0",
-    "pytest-cov>=5.0",
-    "coverage>=7.5",
+    "requests==2.19.1",
+    "urllib3==1.24.1",
+    "pyyaml==5.1",
+    "jinja2==2.10",
+    "flask==1.0",
 ]
 
 [tool.setuptools.packages.find]
@@ -26,13 +22,12 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["src"]
-addopts = "-v"
+addopts = "-ra"
 
 [tool.coverage.run]
 branch = true
 source = ["testable_demo"]
 
 [tool.coverage.report]
-fail_under = 80
 show_missing = true
+skip_empty = true

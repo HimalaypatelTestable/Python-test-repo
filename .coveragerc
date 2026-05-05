@@ -1,10 +1,10 @@
 [run]
-branch = True
+branch = true
 source = src/testable_demo
 
 [report]
-show_missing = True
-fail_under = 80
-omit =
-    tests/*
-    */__init__.py
+show_missing = true
+skip_empty = true
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:

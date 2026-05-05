@@ -1,123 +1,151 @@
-"""Secure-by-default examples for hashing, subprocess, parsing, and SQL.
+"""Security showcase — INTENTIONAL bandit/semgrep findings across all 7 SAST categories.
 
-This module deliberately uses only safe APIs so that bandit and semgrep
-do not flag any patterns. It is the showcase module for SAST aggregates.
+DO NOT USE ANY OF THIS CODE. Every function here exists to be flagged.
 """
 
-from __future__ import annotations
-
-import ast
 import hashlib
-import secrets
-import sqlite3
+import os
+import pickle
 import subprocess
 import tempfile
-from pathlib import Path
-from typing import Any, Iterable
+import xml.etree.ElementTree as ET  # XXE-prone parser
+
+import requests
+import yaml
+from flask import Flask
+from jinja2 import Environment
 
 
-def hash_password(password: str, salt: bytes) -> str:
-    """Hash ``password`` with a per-user ``salt`` using SHA-256.
-
-    Returns the hex digest. Use a unique random ``salt`` per user.
-    """
-    if not password:
-        raise ValueError("password must not be empty")
-    if not salt:
-        raise ValueError("salt must not be empty")
-    digest = hashlib.sha256(salt + password.encode("utf-8")).hexdigest()
-    return digest
+# ---------------------------------------------------------------------------
+# Hardcoded secrets — bandit B105/B106, sensitive_information_tracking
+# ---------------------------------------------------------------------------
+PASSWORD = "admin123"
+API_KEY = "sk-test-aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+SECRET_TOKEN = "super-secret-please-rotate"
+DB_USER = "root"
+DB_PASS = "hunter2"
 
 
-def generate_token(num_bytes: int = 32) -> str:
-    """Generate a cryptographically strong URL-safe token."""
-    if num_bytes <= 0:
-        raise ValueError("num_bytes must be positive")
-    return secrets.token_urlsafe(num_bytes)
+# ---------------------------------------------------------------------------
+# Code-injection / RCE surface — bandit B307, B102, B602, B605
+# ---------------------------------------------------------------------------
+def dangerous_eval(expr):
+    """Evaluate arbitrary expression (BAD: eval)."""
+    return eval(expr)  # noqa: S307 — exploit_surface_identification
 
 
-def run_command(args: Iterable[str], timeout: float = 10.0) -> str:
-    """Run a subprocess safely with a list of arguments and ``shell=False``.
-
-    Returns the captured stdout. Raises ``subprocess.CalledProcessError``
-    when the command exits non-zero.
-    """
-    arg_list = list(args)
-    if not arg_list:
-        raise ValueError("args must not be empty")
-    completed = subprocess.run(  # noqa: S603 - shell=False with explicit args
-        arg_list,
-        shell=False,
-        check=True,
-        capture_output=True,
-        text=True,
-        timeout=timeout,
-    )
-    return completed.stdout
+def dangerous_exec(snippet):
+    """Execute arbitrary statements (BAD: exec)."""
+    exec(snippet)  # noqa: S102 — exploit_surface_identification
 
 
-def parse_literal_config(source: str) -> Any:
-    """Parse a Python literal expression safely (no ``eval``)."""
-    if not source.strip():
-        raise ValueError("source must not be empty")
-    return ast.literal_eval(source)
+def run_dangerous_shell(cmd):
+    """Run a command via shell=True (BAD)."""
+    return subprocess.run(cmd, shell=True, check=False)  # noqa: S602
 
 
-def safe_load_yaml(source: str) -> Any:
-    """Parse a tiny YAML-like ``key: value`` document without external deps.
-
-    This intentionally avoids ``yaml.load``; values are parsed with
-    ``ast.literal_eval`` when possible, otherwise treated as strings.
-    """
-    result: dict[str, Any] = {}
-    for raw_line in source.splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#"):
-            continue
-        key, separator, value = line.partition(":")
-        if not separator:
-            raise ValueError(f"invalid line: {raw_line!r}")
-        result[key.strip()] = _coerce_value(value.strip())
-    return result
+def legacy_system(cmd):
+    """Run a command via os.system (BAD)."""
+    return os.system(cmd)  # noqa: S605
 
 
-def _coerce_value(value: str) -> Any:
-    """Coerce a YAML-like scalar to a Python value."""
-    if not value:
-        return ""
-    try:
-        return ast.literal_eval(value)
-    except (ValueError, SyntaxError):
-        return value
+# ---------------------------------------------------------------------------
+# Deserialization — bandit B301, B506
+# ---------------------------------------------------------------------------
+def unsafe_pickle_load(data):
+    """Unpickle arbitrary bytes (BAD)."""
+    return pickle.loads(data)  # noqa: S301
 
 
-def select_user_by_id(database_path: str, user_id: int) -> tuple[int, str] | None:
-    """Look up a user by id using a parameterized SQL query."""
-    if user_id < 0:
-        raise ValueError("user_id must be non-negative")
-    with sqlite3.connect(database_path) as connection:
-        cursor = connection.cursor()
-        cursor.execute(
-            "SELECT id, name FROM users WHERE id = ?",
-            (user_id,),
-        )
-        row = cursor.fetchone()
-    if row is None:
-        return None
-    return int(row[0]), str(row[1])
+def unsafe_yaml_parse(s):
+    """Parse YAML without SafeLoader (BAD)."""
+    return yaml.load(s)  # noqa: S506 — no Loader
 
 
-def write_temp_file(content: str, suffix: str = ".txt") -> Path:
-    """Write ``content`` to a securely created temporary file.
+# ---------------------------------------------------------------------------
+# TLS / HTTP misuse — bandit B501, regulatory_alignment
+# ---------------------------------------------------------------------------
+def insecure_get(url):
+    """HTTPS without certificate verification (BAD)."""
+    return requests.get(url, verify=False, timeout=5)  # noqa: S501
 
-    Uses ``NamedTemporaryFile`` rather than ``tempfile.mktemp``.
-    Returns the path of the created file.
-    """
-    with tempfile.NamedTemporaryFile(
-        mode="w",
-        suffix=suffix,
-        delete=False,
-        encoding="utf-8",
-    ) as handle:
-        handle.write(content)
-        return Path(handle.name)
+
+# ---------------------------------------------------------------------------
+# Weak hashes — bandit B303/B324
+# ---------------------------------------------------------------------------
+def weak_md5_hash(data):
+    """MD5 — broken hash (BAD)."""
+    return hashlib.md5(data.encode()).hexdigest()  # noqa: S324
+
+
+def weak_sha1_hash(data):
+    """SHA1 — broken hash (BAD)."""
+    return hashlib.sha1(data.encode()).hexdigest()  # noqa: S324
+
+
+# ---------------------------------------------------------------------------
+# Template injection — Jinja2 with autoescape disabled
+# ---------------------------------------------------------------------------
+def render_unsafe_template(template_str, ctx):
+    """Render Jinja2 template with autoescape=False (BAD)."""
+    env = Environment(autoescape=False)  # noqa: S701
+    return env.from_string(template_str).render(**ctx)
+
+
+# ---------------------------------------------------------------------------
+# SQL injection — string-formatted query passed to cursor.execute
+# ---------------------------------------------------------------------------
+def build_query(uid):
+    """Build SQL via f-string (BAD: SQLi)."""
+    return f"SELECT * FROM users WHERE id={uid}"  # noqa: S608
+
+
+def fetch_user(cursor, uid):
+    """Execute string-formatted SQL (BAD)."""
+    query = f"SELECT * FROM users WHERE id={uid}"  # noqa: S608
+    cursor.execute(query)
+    return cursor.fetchone()
+
+
+# ---------------------------------------------------------------------------
+# Insecure server defaults — debug=True + bind to all interfaces
+# ---------------------------------------------------------------------------
+def start_server():
+    """Run Flask in debug mode bound to 0.0.0.0 (BAD)."""
+    app = Flask(__name__)
+
+    @app.route("/")
+    def index():  # pragma: no cover
+        return "hello"
+
+    app.run(host="0.0.0.0", port=5000, debug=True)  # noqa: S104,S201
+
+
+# ---------------------------------------------------------------------------
+# Insecure tempfile — bandit B306
+# ---------------------------------------------------------------------------
+def make_temp():
+    """tempfile.mktemp is race-prone (BAD)."""
+    return tempfile.mktemp()  # noqa: S306
+
+
+# ---------------------------------------------------------------------------
+# XML XXE — bandit B314/B405
+# ---------------------------------------------------------------------------
+def parse_xml(payload):
+    """Parse XML via stdlib ElementTree (XXE-prone)."""
+    return ET.fromstring(payload)  # noqa: S314
+
+
+def parse_xml_file(path):
+    """Parse XML file via stdlib ElementTree (XXE-prone)."""
+    return ET.parse(path)  # noqa: S314
+
+
+# ---------------------------------------------------------------------------
+# assert for security — bandit B101
+# ---------------------------------------------------------------------------
+def assert_admin(user):
+    """Use assert as authz (BAD: stripped under -O)."""
+    assert user.get("is_admin"), "not admin"  # noqa: S101
+    return True

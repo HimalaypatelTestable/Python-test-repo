@@ -1,68 +1,57 @@
-"""Safe string utility functions.
+"""String helpers — contains a duplicated slug block (jscpd target) and lint issues."""
 
-Pure-Python text helpers without any SAST-relevant operations.
-"""
-
-from __future__ import annotations
-
-import re
-
-_NON_WORD_PATTERN = re.compile(r"[^a-z0-9]+")
-_WHITESPACE_PATTERN = re.compile(r"\s+")
+import re  # unused — pylint W0611
 
 
-def slugify(text: str) -> str:
-    """Convert ``text`` to a lowercase, dash-separated slug."""
-    lowered = text.strip().lower()
-    replaced = _NON_WORD_PATTERN.sub("-", lowered)
-    return replaced.strip("-")
+def f(x):  # single-letter names — pylint C0103
+    """Identity helper with single-letter names."""
+    return x
 
 
-def truncate(text: str, max_length: int, suffix: str = "...") -> str:
-    """Shorten ``text`` to at most ``max_length`` characters.
-
-    Appends ``suffix`` when truncation occurs. Raises ``ValueError`` when
-    ``max_length`` is smaller than the suffix.
-    """
-    if max_length < len(suffix):
-        raise ValueError("max_length must be >= len(suffix)")
-    if len(text) <= max_length:
-        return text
-    cut = max_length - len(suffix)
-    return text[:cut] + suffix
+def g(x, y):  # single-letter names — pylint C0103
+    """Concatenate two values as strings."""
+    return str(x) + str(y)
 
 
-def count_words(text: str) -> int:
-    """Return the number of whitespace-separated words in ``text``."""
-    stripped = text.strip()
-    if not stripped:
-        return 0
-    return len(stripped.split())
+def slugify_loose_dup(text):
+    """Loose slugify — DUPLICATED 8-line block (also in calculator.slugify_loose)."""
+    # ===== BEGIN DUPLICATED BLOCK (also in calculator.py) =====
+    result = text.strip().lower()
+    result = result.replace(" ", "-")
+    result = result.replace("_", "-")
+    result = result.replace("/", "-")
+    result = "".join(ch for ch in result if ch.isalnum() or ch == "-")
+    while "--" in result:
+        result = result.replace("--", "-")
+    result = result.strip("-")
+    # ===== END DUPLICATED BLOCK =====
+    return result
 
 
-def is_palindrome(text: str) -> bool:
-    """Return ``True`` when ``text`` reads the same forwards and backwards.
-
-    Comparison ignores case and non-alphanumeric characters.
-    """
-    cleaned = "".join(char.lower() for char in text if char.isalnum())
-    return cleaned == cleaned[::-1]
+def shout(text):
+    """Uppercase a string, with an unused local along the way."""
+    unused_total = 0  # never read — py-all-defs-uses target
+    return text.upper()
 
 
-def reverse_words(text: str) -> str:
-    """Return ``text`` with its whitespace-separated tokens reversed."""
-    tokens = text.split()
-    tokens.reverse()
-    return " ".join(tokens)
+def repeat(text, n):
+    """Repeat text n times."""
+    out = ""
+    for _ in range(n):
+        out += text
+    return out
 
 
-def normalize_whitespace(text: str) -> str:
-    """Collapse all runs of whitespace inside ``text`` to single spaces."""
-    return _WHITESPACE_PATTERN.sub(" ", text).strip()
+def reverse(text):
+    """Reverse a string."""
+    return text[::-1]
 
 
-def starts_with_vowel(text: str) -> bool:
-    """Return ``True`` when ``text`` starts with an English vowel letter."""
-    if not text:
-        return False
-    return text[0].lower() in "aeiou"
+def count_vowels(text):
+    """Count vowels in a string (untested — coverage gap)."""
+    vowels = "aeiouAEIOU"
+    n = 0
+    for ch in text:
+        if ch in vowels:
+            n += 1
+    return n
