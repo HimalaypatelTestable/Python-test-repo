@@ -1,0 +1,16 @@
+id: b7127a36-68d8-42d0-b244-a127784b3aba
+title: "Navigation to Product Detail Page"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that clicking the 'View Product' button on a specific item in the product listing page redirects the user to the unique URL associated with that specific product."
+steps:
+  - action: "Navigate to the home page or the product listing page."
+    expected: "The product listing page is displayed successfully with a list of available items."
+  - action: "Identify a specific product (e.g., 'Blue Top') and click on the 'View Product' button located under the product image/details."
+    expected: "The user is redirected to the product detail page. The browser URL changes to a unique path corresponding to that product ID (e.g., /product_details/1)."
+  - action: "Verify the visibility of the product information on the detail page."
+    expected: "The following fields are clearly visible: Product Name, Category, Price, Availability, Condition, and Brand."
+expected_result: "The following fields are clearly visible: Product Name, Category, Price, Availability, Condition, and Brand."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

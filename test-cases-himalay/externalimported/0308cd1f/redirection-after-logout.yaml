@@ -1,0 +1,18 @@
+id: 6ea61ee5-9825-4aa8-8a7c-e6877e50a42f
+title: "Redirection After Logout"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that clicking the logout button triggers a redirection to the designated login page ('/login')."
+steps:
+  - action: "Log in to the application with valid credentials."
+    expected: "User is successfully logged in. The navigation bar displays the 'Logout' option and 'Logged in as valid_user' text."
+  - action: "Click on the 'Logout' button in the navigation bar."
+    expected: "The user is immediately redirected to the '/login' page. The 'Logged in as valid_user' text is no longer visible in the UI."
+  - action: "Check the browser URL bar."
+    expected: "The URL ends with '/login'."
+  - action: "Click the browser's 'Back' button."
+    expected: "The user is not returned to an authenticated session. The application remains on the login page or redirects to a public landing page."
+expected_result: "The user is not returned to an authenticated session. The application remains on the login page or redirects to a public landing page."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

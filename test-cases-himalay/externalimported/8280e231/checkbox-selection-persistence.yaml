@@ -1,0 +1,21 @@
+id: 06f6ce7f-02d6-4ffb-9211-6802ac7b91ab
+title: "Checkbox Selection Persistence"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that the 'Newsletter' and 'Special Offers' checkboxes can be selected and that their state is correctly recorded upon account creation."
+steps:
+  - action: "Navigate to the website and click on 'Signup / Login' button"
+    expected: "Login/Signup page is displayed with 'New User Signup!' heading"
+  - action: "Enter a unique Name and Email address in the signup section and click 'Signup'"
+    expected: "'ENTER ACCOUNT INFORMATION' form is displayed"
+  - action: "Fill in the required account details (Title, Password, Date of Birth)"
+  - action: "Select the 'Sign up for our newsletter!' checkbox Select the 'Receive special offers from our partners!' checkbox"
+    expected: "Both checkboxes are visually checked"
+  - action: "Fill in all required Address Information fields and click 'Create Account'"
+    expected: "'ACCOUNT CREATED!' message is displayed"
+  - action: "Click 'Continue' and navigate to the 'Account Information' or 'Profile' section"
+    expected: "The navbar displays 'Logged in as Test User' The 'Newsletter' and 'Special Offers' options reflect the selected state from the registration process"
+expected_result: "The navbar displays 'Logged in as Test User' The 'Newsletter' and 'Special Offers' options reflect the selected state from the registration process"
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

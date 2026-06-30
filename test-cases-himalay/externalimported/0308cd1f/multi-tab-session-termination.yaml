@@ -1,0 +1,20 @@
+id: 42fb5385-3b1a-4e8b-bfbb-e5b89aa3ff38
+title: "Multi-Tab Session Termination"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that if a user has multiple tabs open, logging out in one tab effectively terminates the session across all other open tabs upon the next interaction or refresh."
+steps:
+  - action: "Open the browser and log in to the application with valid credentials."
+    expected: "User is successfully logged in and redirected to the dashboard."
+  - action: "Open a second browser tab and navigate to the application URL."
+    expected: "The user is automatically authenticated in the second tab due to the active session."
+  - action: "In the first tab, click on the 'Logout' button in the navbar."
+    expected: "The user is redirected to the /login page in the first tab. The 'Logged in as username' message is no longer visible."
+  - action: "Switch to the second tab and refresh the page."
+    expected: "The application detects the terminated session and redirects the user to the /login page. The user can no longer access protected content in the second tab."
+  - action: "In the second tab, attempt to navigate back using the browser's back button."
+    expected: "The user is not restored to an authenticated state. The application remains on the login page or redirects to login if a protected page is cached."
+expected_result: "The user is not restored to an authenticated state. The application remains on the login page or redirects to login if a protected page is cached."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

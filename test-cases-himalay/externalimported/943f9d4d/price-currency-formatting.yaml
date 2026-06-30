@@ -1,0 +1,18 @@
+id: 30a997b8-c86a-42de-a74b-8b54b41f34a5
+title: "Price Currency Formatting"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that the price is displayed in the correct currency format and matches the regional settings of the user or the store's default configuration."
+steps:
+  - action: "Navigate to the home page of the e-commerce website."
+    expected: "The home page loads successfully with a list of products."
+  - action: "Locate a product and click on the 'View Product' button."
+    expected: "The Product Detail Page (PDP) opens. The price field is visible."
+  - action: "Observe the currency symbol and the numerical formatting of the price."
+    expected: "The price is prefixed with the correct currency symbol (e.g., '$'). The price follows the standard decimal format (e.g., $49.99). The currency matches the store's default configuration."
+  - action: "Change the store's regional/currency setting to a different region (e.g., UK/GBP) if the option is available."
+    expected: "The page refreshes or updates the price display. The price is displayed with the British Pound symbol (£). The numerical value is correctly formatted according to UK standards."
+expected_result: "The page refreshes or updates the price display. The price is displayed with the British Pound symbol (£). The numerical value is correctly formatted according to UK standards."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

@@ -1,0 +1,22 @@
+id: 83ffd351-93f0-4fbc-a9b8-e994ad8cebcf
+title: "Logout Resilience under Network Latency"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that the logout process completes successfully even if the network connection is slow or experiences a brief interruption during the request."
+steps:
+  - action: "Log in to the application with valid credentials."
+    expected: "User is successfully logged in. Navbar displays 'Logged in as testuser'."
+  - action: "Open Browser DevTools and navigate to the Network tab. Enable network throttling to 'Slow 3G' or a custom profile with high latency (e.g., 5000ms)."
+    expected: "Network throttling is active."
+  - action: "Click on the 'Logout' button in the navbar."
+    expected: "A logout request is initiated. The application shows a loading indicator or remains responsive during the delay."
+  - action: "Wait for the request to complete and the page to redirect."
+    expected: "User is redirected to the /login page. The 'Logged in as testuser' text is no longer visible."
+  - action: "Click the browser's 'Back' button."
+    expected: "The user is not returned to an authenticated session. The application redirects the user back to the login page or shows an 'Unauthorized' state."
+  - action: "Attempt to access a protected URL directly (e.g., /dashboard)."
+    expected: "Access is denied. User is redirected to the login page, confirming the session was terminated securely despite the latency."
+expected_result: "Access is denied. User is redirected to the login page, confirming the session was terminated securely despite the latency."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

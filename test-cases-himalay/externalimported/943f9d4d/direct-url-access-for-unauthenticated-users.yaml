@@ -1,0 +1,18 @@
+id: 255779aa-0622-427f-bf8d-d58932ef4555
+title: "Direct URL Access for Unauthenticated Users"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that navigating to a valid product URL while the user is unauthenticated (if the product is public) correctly displays the page without requiring a login."
+steps:
+  - action: "Ensure the user is not logged into the application."
+    expected: "User is in an unauthenticated/guest state."
+  - action: "Enter a valid product detail URL directly into the browser address bar and press Enter."
+    expected: "The Product Detail page loads successfully without redirecting to a login page."
+  - action: "Verify the visibility of all required product information fields."
+    expected: "Product Name, Category, Price, Availability, Condition, and Brand are clearly visible."
+  - action: "Attempt to increase the product quantity using the quantity selector."
+    expected: "The quantity value increases correctly."
+expected_result: "The quantity value increases correctly."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

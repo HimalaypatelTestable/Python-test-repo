@@ -1,0 +1,20 @@
+id: b2cdefcb-bfef-4604-a761-0e586a85d6cb
+title: "Mandatory Field Visibility and Accuracy"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Confirm that the Product Name, Category, Price, Availability, Condition, and Brand are all visible on the page and match the data source for the selected product."
+steps:
+  - action: "Navigate to the home page or product listing page."
+    expected: "The product listing page loads successfully."
+  - action: "Locate a specific product and click on the 'View Product' button."
+    expected: "The Product Detail Page (PDP) opens for the selected item."
+  - action: "Verify the visibility and content of the Product Name and Category."
+    expected: "Product Name is visible and matches the data source. Category is visible and correctly labeled."
+  - action: "Verify the visibility and content of the Price and Availability status."
+    expected: "Price is displayed with the correct currency symbol. Availability status (e.g., In Stock) is clearly visible."
+  - action: "Verify the visibility and content of the Condition and Brand fields."
+    expected: "Condition (e.g., New) is displayed. Brand name is visible and accurate to the product."
+expected_result: "Condition (e.g., New) is displayed. Brand name is visible and accurate to the product."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

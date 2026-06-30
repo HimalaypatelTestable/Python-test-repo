@@ -1,0 +1,16 @@
+id: 9a47afd5-a6bd-4e7d-ba50-69d11b6909fe
+title: "Success Page UI and Navigation"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that the 'Continue' button on the 'ACCOUNT CREATED!' page is clearly visible and functional."
+steps:
+  - action: "Navigate to the signup page and fill in all required account and address information."
+    expected: "The 'Create Account' button is clickable."
+  - action: "Click the 'Create Account' button."
+    expected: "The page redirects to the success page. The heading 'ACCOUNT CREATED!' is displayed. The 'Continue' button is clearly visible on the page."
+  - action: "Click the 'Continue' button."
+    expected: "The user is redirected to the home page. The navigation bar displays the text 'Logged in as John Doe'."
+expected_result: "The user is redirected to the home page. The navigation bar displays the text 'Logged in as John Doe'."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

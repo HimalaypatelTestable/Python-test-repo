@@ -1,0 +1,14 @@
+id: 6f80107f-9ebb-4732-8e24-27b31584c9ca
+title: "Registration with Duplicate Email Address"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that attempting to sign up with an email address that is already associated with an existing account triggers the error message 'Email Address already exist!'."
+steps:
+  - action: "Navigate to the website URL Click on the 'Signup / Login' button in the navigation bar"
+    expected: "The login/signup page is displayed The 'New User Signup!' heading is visible"
+  - action: "Enter a name in the 'Name' field Enter an email address that is already registered in the 'Email Address' field Click the 'Signup' button"
+    expected: "The error message 'Email Address already exist!' is displayed below the signup form The user is not redirected to the 'ENTER ACCOUNT INFORMATION' form The user remains on the signup page"
+expected_result: "The error message 'Email Address already exist!' is displayed below the signup form The user is not redirected to the 'ENTER ACCOUNT INFORMATION' form The user remains on the signup page"
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

@@ -1,0 +1,20 @@
+id: 1c42567f-aee2-4641-8622-ff4dc9242b0f
+title: "Quantity Decrement Functionality"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Test the decrement functionality of the quantity selector to ensure the value decreases correctly, but does not fall below the minimum allowed threshold (e.g., 1)."
+steps:
+  - action: "Navigate to the product listing page and click on 'View Product' for any available item."
+    expected: "The product detail page opens successfully showing Product Name, Category, Price, Availability, Condition, and Brand."
+  - action: "Locate the quantity selector and click the increment (+) button twice."
+    expected: "The quantity value increases from 1 to 3."
+  - action: "Click the decrement (-) button once."
+    expected: "The quantity value decreases from 3 to 2."
+  - action: "Click the decrement (-) button again."
+    expected: "The quantity value decreases from 2 to 1."
+  - action: "Click the decrement (-) button one more time when the value is 1."
+    expected: "The quantity value remains at 1. The decrement button may become disabled or the system prevents the value from dropping below the minimum threshold."
+expected_result: "The quantity value remains at 1. The decrement button may become disabled or the system prevents the value from dropping below the minimum threshold."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

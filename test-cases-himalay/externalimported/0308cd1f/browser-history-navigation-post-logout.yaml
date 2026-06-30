@@ -1,0 +1,18 @@
+id: 809f0a4c-ba9c-4600-952e-4bd25bba43ca
+title: "Browser History Navigation Post-Logout"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that clicking the browser's 'Back' button after logging out does not restore the authenticated session or allow access to protected content, redirecting the user to a public page instead."
+steps:
+  - action: "Log in to the application with valid credentials."
+    expected: "User is successfully logged in. The dashboard or home page is displayed. The message 'Logged in as valid_user' is visible in the navbar."
+  - action: "Click on the 'Logout' button in the navbar."
+    expected: "User is redirected to the /login page. The 'Logged in as valid_user' message is no longer visible."
+  - action: "Click the browser's 'Back' button."
+    expected: "The application does not restore the authenticated session. The user is either kept on the login page or redirected to a public landing page. Protected user data or the 'Logged in as' status is not displayed."
+  - action: "Attempt to refresh the page or click a link to a protected route (e.g., /dashboard)."
+    expected: "The system redirects the user to the login page. Access to protected content is denied."
+expected_result: "The system redirects the user to the login page. Access to protected content is denied."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

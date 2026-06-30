@@ -1,0 +1,22 @@
+id: f33e3ad6-d5cf-4c92-8ec8-9f9891042685
+title: "Manual Quantity Input Validation"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that the quantity selector handles manual keyboard input correctly, validating that only positive integers are accepted and out-of-range values are corrected or blocked."
+steps:
+  - action: "Navigate to the product detail page of any available item."
+    expected: "Product detail page loads successfully showing Name, Price, and Quantity field."
+  - action: "Click on the quantity input field and manually type a positive integer."
+    expected: "The input field displays the entered value '5'."
+  - action: "Attempt to type a negative number or a zero into the quantity field."
+    expected: "The system prevents the input, or automatically resets the value to the minimum allowed (usually 1)."
+  - action: "Attempt to type non-numeric characters or symbols into the quantity field."
+    expected: "The input field ignores non-numeric keystrokes and remains unchanged."
+  - action: "Enter a decimal value into the quantity field."
+    expected: "The system rounds the value or prevents the entry of the decimal point."
+  - action: "Enter a value significantly higher than the available stock and click 'Add to Cart'."
+    expected: "An error message appears stating the quantity exceeds available stock, or the field is capped at the maximum stock level."
+expected_result: "An error message appears stating the quantity exceeds available stock, or the field is capped at the maximum stock level."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW
