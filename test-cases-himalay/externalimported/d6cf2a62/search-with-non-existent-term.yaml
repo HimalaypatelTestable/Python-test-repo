@@ -1,0 +1,16 @@
+id: aa89925b-b2cb-4af9-b6c1-679f2d742e80
+title: "Search with Non-Existent Term"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that searching for a term that does not exist in the product catalog results in an empty product list and ensures no application errors or crashes occur."
+steps:
+  - action: "Navigate to the website URL"
+    expected: "The homepage loads successfully."
+  - action: "Click on the 'Products' button in the navigation menu"
+    expected: "The user is navigated to the 'ALL PRODUCTS' page. The full list of products is visible."
+  - action: "Enter a non-existent product name in the search input field Click the search icon/button"
+    expected: "The heading 'SEARCHED PRODUCTS' is displayed. The product list is empty. No application errors or crashes occur."
+expected_result: "The heading 'SEARCHED PRODUCTS' is displayed. The product list is empty. No application errors or crashes occur."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

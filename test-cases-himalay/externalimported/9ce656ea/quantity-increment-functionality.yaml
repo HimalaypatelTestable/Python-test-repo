@@ -1,0 +1,20 @@
+id: 93806627-e4f1-4afe-bd16-4ca7d7ba7ea9
+title: "Quantity Increment Functionality"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Test the increment functionality of the quantity selector to ensure the value increases correctly when the user interacts with the control."
+steps:
+  - action: "Navigate to the home page and click on 'View Product' for any available item."
+    expected: "The Product Detail page opens successfully showing product name, price, and quantity selector."
+  - action: "Locate the quantity input field and observe the default value."
+    expected: "The default quantity is displayed as '1'."
+  - action: "Click the '+' (increment) button next to the quantity input field."
+    expected: "The quantity value increases from '1' to '2'."
+  - action: "Click the '+' button multiple times rapidly."
+    expected: "The quantity value increments correctly with each click (e.g., reaching '5')."
+  - action: "Click the 'Add to Cart' button."
+    expected: "The product is added to the cart with the exact quantity specified in the selector."
+expected_result: "The product is added to the cart with the exact quantity specified in the selector."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW

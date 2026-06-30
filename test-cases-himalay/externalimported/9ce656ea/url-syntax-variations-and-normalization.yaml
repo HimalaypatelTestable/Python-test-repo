@@ -1,0 +1,18 @@
+id: e14f4c56-a048-44eb-a4b6-66b7d9bac98d
+title: "URL Syntax Variations and Normalization"
+suite: "external/imported"
+category: "ImportedTests"
+priority: P2
+description: "Verify that the system correctly handles URLs with trailing slashes or variations in casing (if applicable) to ensure they resolve to the correct product page or a standard error page."
+steps:
+  - action: "Navigate to a valid product detail page and note the standard URL structure"
+    expected: "The product detail page loads correctly with all fields (Name, Category, Price, etc.) visible."
+  - action: "Append a trailing slash to the end of the valid product URL and press Enter"
+    expected: "The system either normalizes the URL (removes the slash) or resolves to the same product page without error."
+  - action: "Modify the casing of the product URL path and press Enter"
+    expected: "The system handles the casing (either via redirect to lowercase or case-insensitive matching) and displays the correct product."
+  - action: "Enter a URL with an invalid syntax or non-existent product ID"
+    expected: "The system displays a 404 error page or redirects the user to the product listing page with an appropriate error message."
+expected_result: "The system displays a 404 error page or redirects the user to the product listing page with an appropriate error message."
+source: EXTERNAL_SOURCE
+review_status: PENDING_REVIEW
