@@ -1,0 +1,14 @@
+id: 96ef2c50-b3d0-4a40-9d55-8553a37da273
+title: "Verify abc-123 functionality with maximum valid input"
+suite: "API"
+category: "BOUNDARY"
+priority: P2
+description: ""
+steps:
+  - action: "Navigate to the abc-123 feature module"
+  - action: "Input the maximum allowed valid data within current caps"
+  - action: "Submit the request"
+  - action: "Verify that the system processes the maximum load without error"
+expected_result: "Outcome: Verify that the system processes the maximum load without error"
+source: AI_GENERATED
+review_status: AUTO_APPROVED
